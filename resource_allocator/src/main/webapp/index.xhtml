@@ -2,46 +2,59 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:a="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
-        <h1>Room allocation</h1>
+        <h:commandButton value="New allocation" type="button" onclick="PF('newallocDialog').show()"/>
 
-        <h:form id="reg">
-            <h2>Register for the room</h2>
-            <h:panelGrid columns="3" columnClasses="titleCell">
-                <h:outputLabel for="email" value="Email:" />
-                <h:inputText id="email" value="#{allocation.email}" />
-                <h:message for="email" errorClass="invalid" />
-
-                <h:outputLabel for="subject" value="Subject:" />
-                <h:inputText id="subject" value="#{allocation.subject}" />
-                <h:message for="subject" errorClass="invalid" />
-
-                <h:outputLabel for="start" value="Start date:" />
-                <h:inputText id="start" value="#{allocation.start}" >
-                    <f:convertDateTime pattern="h:mm a" timeZone="Europe/Budapest" type="time" dateStyle="medium"/>
-                </h:inputText>
-                <h:message for="start" errorClass="invalid" />
-
-                <h:outputLabel for="end" value="End date:" />
-                <h:inputText id="end" value="#{allocation.end}">
-                    <f:convertDateTime pattern="h:mm a" timeZone="Europe/Budapest" type="time" dateStyle="medium"/>
-                </h:inputText>
-                <h:message for="end" errorClass="invalid" />
-
-            </h:panelGrid>
-
-            <p>
-                <h:panelGrid columns="2">
-                    <h:commandButton id="register"
-                                     action="#{allocationController.register}"
-                                     value="Register" styleClass="register" />
-                    <h:messages styleClass="messages" errorClass="invalid" infoClass="valid"
-                                warnClass="warning" globalOnly="true" />
+        <p:dialog header="New allocation" widgetVar="newallocDialog" modal="true" resizable="false" showEffect="Drop">
+            <h1>Room allocation</h1>
+            <h:form id="reg" style="border: none">
+                <!--
+                <h2>Register for the room</h2>
+                -->
+                <h:panelGrid columns="1" columnClasses="titleCell">
+                    <p:selectOneRadio id="room" style="margin-left: 0px" value="#{allocation.room}">
+                        <f:selectItem itemLabel="1st room" itemValue="1st room" />
+                        <f:selectItem itemLabel="2nd room" itemValue="2nd room" />
+                        <f:selectItem itemLabel="3rd room" itemValue="3rd room" />
+                    </p:selectOneRadio>
                 </h:panelGrid>
-            </p>
-        </h:form>
+                <h:panelGrid columns="3" columnClasses="titleCell">
+                    <h:outputLabel for="email" value="Email:" />
+                    <h:inputText id="email" value="#{allocation.email}" />
+                    <h:message for="email" errorClass="invalid" />
+
+                    <h:outputLabel for="subject" value="Subject:" />
+                    <h:inputText id="subject" value="#{allocation.subject}" />
+                    <h:message for="subject" errorClass="invalid" />
+
+                    <h:outputLabel for="start" value="Start date:" />
+                    <h:inputText id="start" value="#{allocation.start}" a:placeholder="2016-11-22 00:00" >
+                        <f:convertDateTime pattern="h:mm a" timeZone="Europe/Budapest" type="time" dateStyle="medium"/>
+                    </h:inputText>
+                    <h:message for="start" errorClass="invalid" />
+
+                    <h:outputLabel for="end" value="End date:" />
+                    <h:inputText id="end" value="#{allocation.end}" a:placeholder="2016-11-22 00:15">
+                        <f:convertDateTime pattern="h:mm a" timeZone="Europe/Budapest" type="time" dateStyle="medium"/>
+                    </h:inputText>
+                    <h:message for="end" errorClass="invalid" />
+
+                </h:panelGrid>
+
+                <p>
+                    <h:panelGrid columns="2">
+                        <h:commandButton id="register"
+                                         action="#{allocationController.register}"
+                                         value="Register" styleClass="register" />
+                        <h:messages styleClass="messages" errorClass="invalid" infoClass="valid"
+                                    warnClass="warning" globalOnly="true" />
+                    </h:panelGrid>
+                </p>
+            </h:form>
+        </p:dialog>
         <h2>Allocations</h2>
         <h:panelGroup rendered="#{empty allocList}">
             <em>No allocations</em>
@@ -68,6 +81,10 @@
             <h:column>
                 <f:facet name="header">End</f:facet>
                 #{_alloc.end}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Room</f:facet>
+                #{_alloc.room}
             </h:column>
         </h:dataTable>
     </ui:define>

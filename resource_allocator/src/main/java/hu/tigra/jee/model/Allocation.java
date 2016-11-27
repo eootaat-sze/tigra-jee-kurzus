@@ -20,6 +20,7 @@ public class Allocation extends EqualsById implements Serializable {
     private Long id;
 
     @NotNull
+    @NotEmpty
     private String subject;
 
     @NotNull
@@ -32,6 +33,10 @@ public class Allocation extends EqualsById implements Serializable {
 
     @NotNull
     private Date end;
+
+    @NotNull
+    @NotEmpty
+    private String room;
 
 
     public String getSubject() {
@@ -64,6 +69,14 @@ public class Allocation extends EqualsById implements Serializable {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public String getRoom() {
+        return this.room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     @Override

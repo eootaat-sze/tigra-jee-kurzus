@@ -37,7 +37,10 @@ public class AllocationController {
         try {
             registration.register(allocation);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful!");
+            FacesMessage roomMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Room", allocation.getRoom());
             context.addMessage(null, message);
+            context.addMessage(null, roomMessage);
+            System.out.println(allocation.getRoom());
             initAllocation();
         } catch (Exception e) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Some problem appeared. Try again later, please!", "Registration unsuccessful!");

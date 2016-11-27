@@ -2,6 +2,7 @@ package hu.tigra.jee.data;
 
 import hu.tigra.jee.model.Allocation;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.Reception;
@@ -28,6 +29,7 @@ public class AllocationListProducer {
         retrieveAllAllocationsOrderedByStartTime();
     }
 
+    @PostConstruct
     private void retrieveAllAllocationsOrderedByStartTime() {
         allocList = allocRepo.findAllOrderedByStartTime();
     }
